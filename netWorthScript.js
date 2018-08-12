@@ -18,10 +18,83 @@ let sc1Array = [];
 let sc2Array = [];
 let differenceArray = [];
 
+let chart;
+
 initValues();
 addInputEventListeners();
 generateNetWorthArrays();
+drawNetWorthChart();
 createNetWorthTable();
+
+function drawNetWorthChart(){
+    var ctx = document.getElementById('netWorthChart').getContext('2d');
+    chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+    
+        // The data for our dataset
+        data: {
+            labels: ageArray,
+            datasets: [
+                {
+                    label: "Scenario #1",
+                    borderColor: 'rgb(74, 206, 249)',
+                    pointBackgroundColor: 'rgb(74, 206, 249)',
+                    data: sc1Array,
+                    pointHitRadius: 7,
+                },
+    
+                {
+                    label: "Scenario #2",
+                    borderColor: 'rgb(246, 80, 158)',
+                    pointBackgroundColor: 'rgb(246, 80, 158)',
+                    data: sc2Array,
+                    pointHitRadius: 7,
+                },
+    
+                
+            ]
+        },
+    
+        // Configuration options go here
+        options: {
+            tooltips: {
+                mode: 'nearest'
+            },
+    
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                            return '$' + value.toLocaleString();
+                        }
+                    },
+    
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Net Worth",
+                    },
+                }],
+    
+                xAxes: [{
+                    ticks: {
+                        userCallback: function(item, index) {
+                            if (!(index % 2)) return item;
+                         },
+                         autoSkip: false
+                    },
+    
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Age",
+                    },
+                }],
+            },
+        }
+    });
+}
+
 
 function initValues() {
 
@@ -65,10 +138,14 @@ function addInputEventListeners() {
 function refreshNetWorthCalcs() {
     console.log("refresh net worth calcs");
 
+    chart.destroy();
+  
     let table = document.getElementById("netWorthTable");
     table.parentNode.removeChild(table);
+
     initValues();
     generateNetWorthArrays();
+    drawNetWorthChart();
     createNetWorthTable();
 
 }
