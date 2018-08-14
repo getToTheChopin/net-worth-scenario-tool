@@ -10,32 +10,66 @@
     </head>
 
     <body>
-        <h1>Net Worth Scenario Tool</h1>
         
-        <div id="sc1">
-            <h3>Assumptions for Scenario #1</h3>
-            <p>Starting age</p><input type="number" class="netWorthInputField" id="startAgesc1" value="25"> <br>
-            <p>Starting net worth</p><input type="number" class="netWorthInputField" id="startValuesc1" value="10000"> $ <br>
-            <p>Annual savings</p><input type="number" class="netWorthInputField" id="annualSavingssc1" value="5000"> $ <br>
-            <p>Annual real investment return</p><input type="number" class="netWorthInputField" id="annualReturnsc1" value="5"> %
+        <div id="scenarioAssumptions">
+
+                <table class="scenarioAssumptionTable">
+
+                    <tr class="scenarioAssumptionTable">
+                        <th class="scenarioAssumptionTable">Assumption</th>
+                        <th class="sc1Header">Scenario #1</th>
+                        <th class="sc2Header">Scenario #2</th>
+                    </tr>
+
+                    <tr class="scenarioAssumptionTable">
+                        <td class="scenarioAssumptionTable">Starting age</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="ageSc1" value="25" min="0" max="100"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="ageSc2" value="35" min="0" max="100"></td>
+                    </tr>
+
+                    <tr class="scenarioAssumptionTable">
+                        <td class="scenarioAssumptionTable">Starting net worth ($)</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="startSc1" value="10000" step="1000"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="startSc2" value="10000" step="1000"></td>
+                    </tr>
+
+                    <tr class="scenarioAssumptionTable">
+                        <td class="scenarioAssumptionTable">Annual savings (real dollars)</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="savingSc1" value="7000" step="1000"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="savingSc2" value="15000" step="1000"></td>                            
+                    </tr>
+
+                    <tr class="scenarioAssumptionTable">
+                        <td class="scenarioAssumptionTable">Investment return (% per year in real dollars)</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="returnSc1" value="5.0" step="0.1"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="returnSc2" value="5.0" step="0.1"></td>
+                    </tr>
+
+                </table>
         </div>
 
-        <div id="sc2">
-            <h3>Assumptions for Scenario #2</h3>
-            <p>Starting age</p><input type="number" class="netWorthInputField" id="startAgesc2" value="35"> <br>
-            <p>Starting net worth</p><input type="number" class="netWorthInputField" id="startValuesc2" value="10000"> $<br>
-            <p>Annual savings</p><input type="number" class="netWorthInputField" id="annualSavingssc2" value="15000"> $<br>
-            <p>Annual real investment</p><input type="number" class="netWorthInputField" id="annualReturnsc2" value="5"> %
-        </div>
-
-        <div id="otherNetWorthAssumptions">
-            <h3>Number of Years to Include in Chart</h3>
-            <p>Number of years</p><input type="number" class="netWorthInputField" id="numberYearsNetWorth" value="40">
+        <div id="numYearsInputDiv">
+            <div id="numYearsTitle">
+                <span>Number of years to look ahead</span>
+            </div>
+            <div id="numYearsInput">
+                    <input type="number" class="numYearsInput" id="numYears" value="40" min="0" max="100">
+            </div>
         </div>
 
         <div id="netWorthChartDiv">
-            <h1>Net Worth Over Time</h1>
             <canvas id="netWorthChart"></canvas>
+        </div>
+
+        <div id="customURLContainer">
+            <div class="customURLDiv">
+                <button id="generateURLButton">Share this scenario</button>
+            </div>
+
+            <div class="customURLDiv">
+                <!-- <input type="text" id="customURLOutput" value="Click button to get a shareable link for your custom scenario"> -->
+                <div id="customURLOutput">Click button to get a shareable link for your custom scenario</div>
+            </div>
         </div>
             
         <div id="netWorthTableDiv">

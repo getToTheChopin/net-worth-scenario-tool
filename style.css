@@ -1,4 +1,153 @@
-table, th, td {
+html, body {
+    font-size: 14px;
+    font-family: Helvetica, sans-serif;
+}
+
+th {
     border: 1px solid black;
     padding: 5px;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    vertical-align:middle;
+}
+
+table {
+    margin: auto;
+}
+
+th {
+    background-color: #dddddd;
+}
+
+td {
+    border: 1px solid rgb(126, 126, 126);
+    padding: 5px;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    vertical-align: middle;
+    background-color: white;
+}
+
+#netWorthChartDiv {
+    padding: 10px;
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    position:relative;
+    height:50vh;
+    width:95vw;
+    max-width: 900px;
+    margin: auto;
+}
+
+.sc1Input, .sc2Input, .numYearsInput {
+    width: 95%;
+    max-Width: 150px;
+    text-align:center;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: Helvetica, sans-serif;
+    vertical-align:middle;
+    padding:3px;
+    border: 1px solid rgb(199, 199, 199);
+    moz-appearance: none;
+    web-kit-appearance: none;
+    appearance: none;
+}
+
+.sc1Input {
+    background-color: #e7feff;
+}
+
+.sc2Input {
+    background-color: #ffe3e1;
+}
+
+#numYearsPara {
+    margin-bottom: 1px;
+}
+
+#numYearsTitle, #numYearsInput {
+    display: inline-block;
+    margin: 5px;
+}
+
+#numYearsInputDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.sc1Header {
+    background-color: #008f95;
+    color: white;
+}
+
+.sc2Header {
+    background-color: #e24e42;
+    color: white;
+}
+
+.sc1Cell {
+    background-color: #e7feff;
+}
+
+.sc2Cell {
+    background-color: #ffe3e1;
+}
+
+#customURLContainer {
+    display: inline-block;
+    max-width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.customURLDiv {
+    align-items: center; 
+    vertical-align:middle;
+}
+
+#generateURLButton {
+    padding: 5px;
+    margin: 5px;
+    background-color: white;
+    color: #0099CC;
+    border: 2px solid #0099CC;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    vertical-align: bottom;
+}
+
+#generateURLButton:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+#customURLOutput {
+    border: 1px solid rgb(199, 199, 199);
+    padding: 5px;
+    color: rgb(73, 73, 73);
+    max-width:200px;
+    display: inline-block;
+    margin: 5px;
+    font-style: oblique;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    background-color: white;
+    overflow-wrap: break-word;
+    vertical-align: bottom;
 }

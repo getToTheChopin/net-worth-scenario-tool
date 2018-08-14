@@ -20,11 +20,29 @@ let differenceArray = [];
 
 let chart;
 
+let generateURLButton = document.getElementById("generateURLButton");
+let customURLOutput = document.getElementById("customURLOutput");
+
+getURLValues();
 initValues();
 addInputEventListeners();
 generateNetWorthArrays();
 drawNetWorthChart();
 createNetWorthTable();
+generateCustomURL();
+
+function getURLValues () {
+    let hashParams = window.location.hash.substr(1).split('&'); // substr(1) to remove the `#`
+    console.log(hashParams);
+    if(hashParams[0] === "") {
+        return;
+    }
+    for(let i = 0; i < hashParams.length; i++){
+        console.log(hashParams.length);
+        let p = hashParams[i].split('=');
+        document.getElementById(p[0]).value = decodeURIComponent(p[1]);
+    }
+}
 
 function drawNetWorthChart(){
     var ctx = document.getElementById('netWorthChart').getContext('2d');
@@ -38,16 +56,18 @@ function drawNetWorthChart(){
             datasets: [
                 {
                     label: "Scenario #1",
-                    borderColor: 'rgb(74, 206, 249)',
-                    pointBackgroundColor: 'rgb(74, 206, 249)',
+                    borderColor: 'rgb(0, 143, 149)',
+                    pointBackgroundColor: 'rgb(0, 143, 149)',
+                    fill: false,
                     data: sc1Array,
                     pointHitRadius: 7,
                 },
     
                 {
                     label: "Scenario #2",
-                    borderColor: 'rgb(246, 80, 158)',
-                    pointBackgroundColor: 'rgb(246, 80, 158)',
+                    borderColor: 'rgb(226, 78, 66)',
+                    pointBackgroundColor: 'rgb(226, 78, 66)',
+                    fill: false,
                     data: sc2Array,
                     pointHitRadius: 7,
                 },
@@ -58,55 +78,107 @@ function drawNetWorthChart(){
     
         // Configuration options go here
         options: {
+            maintainAspectRatio: false,
+        
             tooltips: {
-                mode: 'nearest'
+                 // Include a dollar sign in the ticks and add comma formatting
+                 callbacks: {
+                    label: function(tooltipItem, data) {
+                        let label = data.datasets[tooltipItem.datasetIndex].label || '';
+    
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += '$'+Math.round(tooltipItem.yLabel).toLocaleString();
+                        return label;
+                    }
+                },
             },
     
             scales: {
                 yAxes: [{
                     ticks: {
-                        // Include a dollar sign in the ticks
+                        // Include a dollar sign in the ticks and add comma formatting
                         callback: function(value, index, values) {
                             return '$' + value.toLocaleString();
-                        }
+                        },
+
+                        fontColor: "rgb(56,56,56)",
                     },
     
                     scaleLabel: {
                         display: true,
                         labelString: "Net Worth",
+                        fontColor: "rgb(56,56,56)",
+                        fontStyle: "bold",
+                        fontSize: 15,
+                    },
+
+                    gridLines: {
+                        drawTicks: false,
+                        zeroLineColor: "rgb(56,56,56)",
+                        zeroLineWidth: 2,
                     },
                 }],
     
                 xAxes: [{
                     ticks: {
                         userCallback: function(item, index) {
-                            if (!(index % 2)) return item;
+                            if (!(index % 5)) return item;
                          },
-                         autoSkip: false
+                         autoSkip: false,
+                         fontColor: "rgb(56,56,56)",
+
+                        maxRotation: 0,
+                        minRotation: 0, 
                     },
     
                     scaleLabel: {
                         display: true,
                         labelString: "Age",
+                        fontColor: "rgb(56,56,56)",
+                        fontStyle: "bold",
+                        fontSize: 15,
                     },
-                }],
+
+                    gridLines: {
+                        drawTicks: false,
+                        zeroLineColor: "rgb(56,56,56)",
+                        zeroLineWidth: 2,
+                    },
+                }],    
+            },
+            
+            legend: {
+                labels: {
+                    fontColor: "rgb(56,56,56)",
+                    boxWidth: 13,
+                    padding: 10,
+                },
+            },
+
+            title: {
+                display: true,
+                text: "Net Worth Over Time",
+                fontSize: 18,
+                fontColor: "rgb(56,56,56)",
+                padding: 2,
             },
         }
     });
 }
 
-
 function initValues() {
 
-    startAgesc1 = Number(document.getElementById('startAgesc1').value);
-    startValuesc1 = Number(document.getElementById('startValuesc1').value);
-    annualSavingssc1 = Number(document.getElementById('annualSavingssc1').value);
-    annualReturnsc1 = Number(document.getElementById('annualReturnsc1').value) / 100;
+    startAgesc1 = Number(document.getElementById('ageSc1').value);
+    startValuesc1 = Number(document.getElementById('startSc1').value);
+    annualSavingssc1 = Number(document.getElementById('savingSc1').value);
+    annualReturnsc1 = Number(document.getElementById('returnSc1').value) / 100;
     
-    startAgesc2 = Number(document.getElementById('startAgesc2').value);
-    startValuesc2 = Number(document.getElementById('startValuesc2').value);
-    annualSavingssc2 = Number(document.getElementById('annualSavingssc2').value);
-    annualReturnsc2 = Number(document.getElementById('annualReturnsc2').value) / 100;
+    startAgesc2 = Number(document.getElementById('ageSc2').value);
+    startValuesc2 = Number(document.getElementById('startSc2').value);
+    annualSavingssc2 = Number(document.getElementById('savingSc2').value);
+    annualReturnsc2 = Number(document.getElementById('returnSc2').value) / 100;
     
     lowerStartAge = 0;
     if(startAgesc1 <= startAgesc2) {
@@ -115,7 +187,7 @@ function initValues() {
         lowerStartAge = startAgesc2;
     }
     
-    numberYearsNetWorth = Number(document.getElementById('numberYearsNetWorth').value);
+    numberYearsNetWorth = Number(document.getElementById('numYears').value);
     
     ageArray = [];
     sc1Array = [];
@@ -125,13 +197,72 @@ function initValues() {
 }
 
 function addInputEventListeners() {
-    let inputFields = document.getElementsByClassName("netWorthInputField");
+    let sc1Inputs = document.getElementsByClassName("sc1Input");
+    let sc2Inputs = document.getElementsByClassName("sc2Input");
+    let numYearsInput = document.getElementsByClassName("numYearsInput");
 
-    for(i=0;i<inputFields.length;i++) {
+    for(i=0;i<sc1Inputs.length;i++) {
 
         console.log("add listener");
 
-        inputFields[i].addEventListener('change',refreshNetWorthCalcs, false);
+        sc1Inputs[i].addEventListener('change',refreshNetWorthCalcs, false);
+    }
+
+    for(i=0;i<sc2Inputs.length;i++) {
+
+        console.log("add listener");
+
+        sc2Inputs[i].addEventListener('change',refreshNetWorthCalcs, false);
+    }
+
+    for(i=0;i<numYearsInput.length;i++) {
+
+        console.log("add listener");
+
+        numYearsInput[i].addEventListener('change',refreshNetWorthCalcs, false);
+    }
+}
+
+function generateCustomURL() {
+
+    generateURLButton.addEventListener('click', function() {
+
+        let customURL = [location.protocol, '//', location.host, location.pathname].join('');
+        console.log(customURL);
+
+        customURL += "#ageSc1="+document.getElementById('ageSc1').value+"&startSc1="+document.getElementById('startSc1').value+"&savingSc1="
+            +document.getElementById('savingSc1').value+"&returnSc1="+document.getElementById('returnSc1').value+"&ageSc2="+document.getElementById('ageSc2').value+"&startSc2="+document.getElementById('startSc2').value+"&savingSc2="
+            +document.getElementById('savingSc2').value+"&returnSc2="+document.getElementById('returnSc2').value+"&numYears="+document.getElementById('numYears').value;
+
+        customURLOutput.innerHTML = customURL;
+
+        // customURLOutput.select();
+        // document.execCommand("copy");
+
+        copyToClipboard('customURLOutput');
+
+    }, false);
+
+}
+
+function copyToClipboard(containerid) {
+    
+    if (screen.width >= 600) {
+        if (document.selection) { 
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select().createTextRange();
+            document.execCommand("copy"); 
+        
+        } else if (window.getSelection) {
+            var range = document.createRange();
+             range.selectNode(document.getElementById(containerid));
+             window.getSelection().addRange(range);
+             document.execCommand("copy");
+        }
+    }
+    else {
+        return;
     }
 }
 
@@ -143,11 +274,12 @@ function refreshNetWorthCalcs() {
     let table = document.getElementById("netWorthTable");
     table.parentNode.removeChild(table);
 
+    customURLOutput.innerHTML = "Click button to get a shareable link for your custom scenario";
+
     initValues();
     generateNetWorthArrays();
     drawNetWorthChart();
     createNetWorthTable();
-
 }
 
 function createNetWorthTable() {
@@ -156,7 +288,6 @@ function createNetWorthTable() {
     netWorthTable.classList.add("netWorthTable");
     netWorthTable.setAttribute('id',"netWorthTable");        
 
-    
     //Add header row with titles
     let netWorthTable1 = document.createElement('tr');
     
@@ -165,12 +296,13 @@ function createNetWorthTable() {
     let netWorthTable1c = document.createElement('th');
     let netWorthTable1d = document.createElement('th');
 
-
     netWorthTable1a.textContent = "Age";
     netWorthTable1b.textContent = "Scenario #1";
     netWorthTable1c.textContent = "Scenario #2";
     netWorthTable1d.textContent = "Difference";
 
+    netWorthTable1b.classList.add("sc1Header");
+    netWorthTable1c.classList.add("sc2Header");
 
     netWorthTable1.appendChild(netWorthTable1a);
     netWorthTable1.appendChild(netWorthTable1b);
@@ -190,6 +322,8 @@ function createNetWorthTable() {
 
         let numberOfCol = 4;
 
+        netWorthTableDiv.appendChild(netWorthTable);
+
         for(j=0; j<numberOfCol; j++) {
 
             console.log("add table data");
@@ -204,26 +338,50 @@ function createNetWorthTable() {
             }
 
             else if(j === 1) {
-                tableCell.innerHTML = "$"+Math.round(sc1Array[i]).toLocaleString(); 
+                let roundedNum = Math.round(sc1Array[i]);
+                let absNum = Math.abs(roundedNum)
+                
+                if(sc1Array[i] === null) {
+                    tableCell.innerHTML = "n/a"; 
+                } else if(sc1Array[i] >= 0) {
+                    tableCell.innerHTML = "$"+absNum.toLocaleString(); 
+                } else {
+                    tableCell.innerHTML = "($"+absNum.toLocaleString()+")"; 
+                }
             }
 
             else if(j === 2) {
-                tableCell.innerHTML = "$"+Math.round(sc2Array[i]).toLocaleString(); 
+                let roundedNum = Math.round(sc2Array[i]);
+                let absNum = Math.abs(roundedNum)
+                
+                if(sc2Array[i] === null) {
+                    tableCell.innerHTML = "n/a"; 
+                } else if(sc2Array[i] >= 0) {
+                    tableCell.innerHTML = "$"+absNum.toLocaleString(); 
+                } else {
+                    tableCell.innerHTML = "($"+absNum.toLocaleString()+")"; 
+                }
             }
 
             else if(j === 3) {
-                tableCell.innerHTML = "$"+Math.round(differenceArray[i]).toLocaleString(); 
+                let roundedNum = Math.round(differenceArray[i]);
+                let absNum = Math.abs(roundedNum)
+                
+                if(differenceArray[i] === null) {
+                    tableCell.innerHTML = "n/a"; 
+                } else if(differenceArray[i] >= 0) {
+                    tableCell.innerHTML = "$"+absNum.toLocaleString();
+                    document.getElementById('row'+(i+1)+'col'+(j+1)).style.color = "#008f95"; 
+                } else {
+                    tableCell.innerHTML = "($"+absNum.toLocaleString()+")";
+                    document.getElementById('row'+(i+1)+'col'+(j+1)).style.color = "#e24e42"; 
+                }            
             }
-
         }
     }
-    
-    netWorthTableDiv.appendChild(netWorthTable);
-
 }
 
 function generateNetWorthArrays () {
-
 
     for(i=0;i<=numberYearsNetWorth;i++) {
 
@@ -232,7 +390,7 @@ function generateNetWorthArrays () {
         ageArray[i] = currentAge;
 
         if(currentAge<startAgesc1) {
-            sc1Array[i] = 0;
+            sc1Array[i] = null;
         } else if(currentAge === startAgesc1) {
             sc1Array[i] = startValuesc1;
         } else {
@@ -240,14 +398,17 @@ function generateNetWorthArrays () {
         }
 
         if(currentAge<startAgesc2) {
-            sc2Array[i] = 0;
+            sc2Array[i] = null;
         } else if(currentAge === startAgesc2) {
             sc2Array[i] = startValuesc2;
         } else {
             sc2Array[i] = sc2Array[i-1] + sc2Array[i-1] * annualReturnsc2 + annualSavingssc2;
         }
 
-        differenceArray[i] = sc1Array[i] - sc2Array[i];
+        if(sc1Array[i] === null || sc2Array[i] === null) {
+            differenceArray[i] = null;
+        } else {
+            differenceArray[i] = sc1Array[i] - sc2Array[i];
+        }   
     }
-
 }
