@@ -49,7 +49,7 @@ td {
     background-color: white;
     position:relative;
     height:50vh;
-    width:95vw;
+    width:92vw;
     max-width: 900px;
     margin: auto;
 }
@@ -155,7 +155,6 @@ td {
     color: white;
 }
 
-
 #customURLOutput {
     border: 1px solid rgb(199, 199, 199);
     padding: 5px;
@@ -171,6 +170,6 @@ td {
     vertical-align: bottom;
 }
 
-#advancedAssumptionToggleMarkerContainer {
+#advancedAssumptionToggleMarkerContainer{
     display:none;
 }

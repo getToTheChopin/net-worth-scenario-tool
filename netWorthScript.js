@@ -289,7 +289,7 @@ function generateCustomURL() {
 function toggleAdvancedAssumptions() {
     
     if(Number(advancedAssumptionsToggleMarker.value) === 0) {
-        advancedAssumptionTableContainer.style.display = "none"; 
+        advancedAssumptionTableContainer.style.display = "none";
     } else {
         advancedAssumptionsButton.innerHTML = "Remove advanced options";
     }
