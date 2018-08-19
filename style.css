@@ -14,6 +14,8 @@ th {
 
 table {
     margin: auto;
+    max-width:90%;
+    margin-bottom:1%;
 }
 
 th {
@@ -28,6 +30,15 @@ td {
     font-size: 14px;
     vertical-align: middle;
     background-color: white;
+}
+
+.assumptionTableLabel {
+    width:50%;
+    text-align:left;
+}
+
+.sc1Cell, .sc2Cell {
+    width:25%;
 }
 
 #netWorthChartDiv {
@@ -70,6 +81,15 @@ td {
     margin-bottom: 1px;
 }
 
+.advancedAssumptionPara {
+    width:80%;
+    text-align: left;
+    margin:auto;
+    font-style: oblique;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
 #numYearsTitle, #numYearsInput {
     display: inline-block;
     margin: 5px;
@@ -80,8 +100,6 @@ td {
     justify-content: center;
     align-items: center;
 }
-
-
 
 .sc1Header {
     background-color: #008f95;
@@ -101,7 +119,7 @@ td {
     background-color: #ffe3e1;
 }
 
-#customURLContainer {
+#customURLContainer, .advancedAssumptionButtonContainer {
     display: inline-block;
     max-width: 100%;
     margin: auto;
@@ -115,7 +133,7 @@ td {
     vertical-align:middle;
 }
 
-#generateURLButton {
+#generateURLButton, #advancedAssumptionButton {
     padding: 5px;
     margin: 5px;
     background-color: white;
@@ -132,16 +150,17 @@ td {
     vertical-align: bottom;
 }
 
-#generateURLButton:hover {
+#generateURLButton:hover, #advancedAssumptionButton:hover {
     background-color: #008CBA;
     color: white;
 }
+
 
 #customURLOutput {
     border: 1px solid rgb(199, 199, 199);
     padding: 5px;
     color: rgb(73, 73, 73);
-    max-width:200px;
+    width:200px;
     display: inline-block;
     margin: 5px;
     font-style: oblique;
@@ -150,4 +169,8 @@ td {
     background-color: white;
     overflow-wrap: break-word;
     vertical-align: bottom;
+}
+
+#advancedAssumptionToggleMarkerContainer {
+    display:none;
 }

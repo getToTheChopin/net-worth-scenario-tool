@@ -1,12 +1,29 @@
-let startAgesc1 = 0;
-let startValuesc1 = 0;
-let annualSavingssc1 = 0;
-let annualReturnsc1 = 0;
+let startAgeSc1 = 0;
+let startValueSc1 = 0;
+let annualSavingsSc1 = 0;
+let annualReturnSc1 = 0;
 
-let startAgesc2 = 0;
-let startValuesc2 = 0;
-let annualSavingssc2 = 0;
-let annualReturnsc2 = 0;
+let startAgeSc2 = 0;
+let startValueSc2 = 0;
+let annualSavingsSc2 = 0;
+let annualReturnSc2 = 0;
+
+let p2startAgeSc1 = 0;
+let p2annualSavingsSc1 = 0;
+let p2annualReturnSc1 = 0;
+
+let p2startAgeSc2 = 0;
+let p2annualSavingsSc2 = 0;
+let p2annualReturnSc2 = 0;
+
+let lumpSum1AgeSc1 = 0;
+let lumpSum1AgeSc2 = 0;
+let lumpSum1AmountSc1 = 0;
+let lumpSum1AmountSc2 = 0;
+let lumpSum2AgeSc1 = 0;
+let lumpSum2AgeSc2 = 0;
+let lumpSum2AmountSc1 = 0;
+let lumpSum2AmountSc2 = 0;
 
 let lowerStartAge = 0;
 let numberYearsNetWorth = 0;
@@ -17,6 +34,10 @@ let ageArray = [];
 let sc1Array = [];
 let sc2Array = [];
 let differenceArray = [];
+
+let advancedAssumptionsButton = document.getElementById("advancedAssumptionButton");
+let advancedAssumptionTableContainer = document.getElementById("advancedAssumptionTableContainer");
+let advancedAssumptionsToggleMarker = document.getElementById("advancedAssumptionToggleMarker");
 
 let chart;
 
@@ -29,6 +50,7 @@ addInputEventListeners();
 generateNetWorthArrays();
 drawNetWorthChart();
 createNetWorthTable();
+toggleAdvancedAssumptions();
 generateCustomURL();
 
 function getURLValues () {
@@ -40,6 +62,7 @@ function getURLValues () {
     for(let i = 0; i < hashParams.length; i++){
         console.log(hashParams.length);
         let p = hashParams[i].split('=');
+
         document.getElementById(p[0]).value = decodeURIComponent(p[1]);
     }
 }
@@ -169,22 +192,41 @@ function drawNetWorthChart(){
 }
 
 function initValues() {
-
-    startAgesc1 = Number(document.getElementById('ageSc1').value);
-    startValuesc1 = Number(document.getElementById('startSc1').value);
-    annualSavingssc1 = Number(document.getElementById('savingSc1').value);
-    annualReturnsc1 = Number(document.getElementById('returnSc1').value) / 100;
+    //initialize phase 1 values
+    startAgeSc1 = Number(document.getElementById('ageSc1').value);
+    startValueSc1 = Number(document.getElementById('startSc1').value);
+    annualSavingsSc1 = Number(document.getElementById('savingSc1').value);
+    annualReturnSc1 = Number(document.getElementById('returnSc1').value) / 100;
     
-    startAgesc2 = Number(document.getElementById('ageSc2').value);
-    startValuesc2 = Number(document.getElementById('startSc2').value);
-    annualSavingssc2 = Number(document.getElementById('savingSc2').value);
-    annualReturnsc2 = Number(document.getElementById('returnSc2').value) / 100;
+    startAgeSc2 = Number(document.getElementById('ageSc2').value);
+    startValueSc2 = Number(document.getElementById('startSc2').value);
+    annualSavingsSc2 = Number(document.getElementById('savingSc2').value);
+    annualReturnSc2 = Number(document.getElementById('returnSc2').value) / 100;
+
+    //initialize phase 2 values
+    p2startAgeSc1 = Number(document.getElementById('phase2AgeSc1').value);
+    p2annualSavingsSc1 = Number(document.getElementById('phase2SavingSc1').value);
+    p2annualReturnSc1 = Number(document.getElementById('phase2ReturnSc1').value) / 100;
+    
+    p2startAgeSc2 = Number(document.getElementById('phase2AgeSc2').value);
+    p2annualSavingsSc2 = Number(document.getElementById('phase2SavingSc2').value);
+    p2annualReturnSc2 = Number(document.getElementById('phase2ReturnSc2').value) / 100;
+    
+    //initialize lump sum values
+    lumpSum1AgeSc1 = Number(document.getElementById('lumpSum1AgeSc1').value);
+    lumpSum1AgeSc2 = Number(document.getElementById('lumpSum1AgeSc2').value);
+    lumpSum1AmountSc1 = Number(document.getElementById('lumpSum1AmountSc1').value);
+    lumpSum1AmountSc2 = Number(document.getElementById('lumpSum1AmountSc2').value);
+    lumpSum2AgeSc1 = Number(document.getElementById('lumpSum2AgeSc1').value);
+    lumpSum2AgeSc2 = Number(document.getElementById('lumpSum2AgeSc2').value);
+    lumpSum2AmountSc1 = Number(document.getElementById('lumpSum2AmountSc1').value);
+    lumpSum2AmountSc2 = Number(document.getElementById('lumpSum2AmountSc2').value);
     
     lowerStartAge = 0;
-    if(startAgesc1 <= startAgesc2) {
-        lowerStartAge = startAgesc1;
+    if(startAgeSc1 <= startAgeSc2) {
+        lowerStartAge = startAgeSc1;
     } else {
-        lowerStartAge = startAgesc2;
+        lowerStartAge = startAgeSc2;
     }
     
     numberYearsNetWorth = Number(document.getElementById('numYears').value);
@@ -193,7 +235,6 @@ function initValues() {
     sc1Array = [];
     sc2Array = [];
     differenceArray = [];
-
 }
 
 function addInputEventListeners() {
@@ -202,23 +243,17 @@ function addInputEventListeners() {
     let numYearsInput = document.getElementsByClassName("numYearsInput");
 
     for(i=0;i<sc1Inputs.length;i++) {
-
         console.log("add listener");
-
         sc1Inputs[i].addEventListener('change',refreshNetWorthCalcs, false);
     }
 
     for(i=0;i<sc2Inputs.length;i++) {
-
         console.log("add listener");
-
         sc2Inputs[i].addEventListener('change',refreshNetWorthCalcs, false);
     }
 
     for(i=0;i<numYearsInput.length;i++) {
-
         console.log("add listener");
-
         numYearsInput[i].addEventListener('change',refreshNetWorthCalcs, false);
     }
 }
@@ -231,22 +266,53 @@ function generateCustomURL() {
         console.log(customURL);
 
         customURL += "#ageSc1="+document.getElementById('ageSc1').value+"&startSc1="+document.getElementById('startSc1').value+"&savingSc1="
-            +document.getElementById('savingSc1').value+"&returnSc1="+document.getElementById('returnSc1').value+"&ageSc2="+document.getElementById('ageSc2').value+"&startSc2="+document.getElementById('startSc2').value+"&savingSc2="
-            +document.getElementById('savingSc2').value+"&returnSc2="+document.getElementById('returnSc2').value+"&numYears="+document.getElementById('numYears').value;
+        +document.getElementById('savingSc1').value+"&returnSc1="+document.getElementById('returnSc1').value+"&ageSc2="+document.getElementById('ageSc2').value+"&startSc2="+document.getElementById('startSc2').value+"&savingSc2="
+        +document.getElementById('savingSc2').value+"&returnSc2="+document.getElementById('returnSc2').value+"&numYears="+document.getElementById('numYears').value;
+        
+        if(Number(advancedAssumptionsToggleMarker.value) === 1) {
+            customURL += "&advancedAssumptionToggleMarker="+document.getElementById('advancedAssumptionToggleMarker').value+"&phase2AgeSc1="+document.getElementById('phase2AgeSc1').value+"&phase2AgeSc2="+document.getElementById('phase2AgeSc2').value
+            +"&phase2SavingSc1="+document.getElementById('phase2SavingSc1').value+"&phase2SavingSc2="+document.getElementById('phase2SavingSc2').value
+            +"&phase2ReturnSc1="+document.getElementById('phase2ReturnSc1').value+"&phase2ReturnSc2="+document.getElementById('phase2ReturnSc2').value
+            +"&lumpSum1AgeSc1="+document.getElementById('lumpSum1AgeSc1').value+"&lumpSum1AgeSc2="+document.getElementById('lumpSum1AgeSc2').value
+            +"&lumpSum1AmountSc1="+document.getElementById('lumpSum1AmountSc1').value+"&lumpSum1AmountSc2="+document.getElementById('lumpSum1AmountSc2').value
+            +"&lumpSum2AgeSc1="+document.getElementById('lumpSum2AgeSc1').value+"&lumpSum2AgeSc2="+document.getElementById('lumpSum2AgeSc2').value
+            +"&lumpSum2AmountSc1="+document.getElementById('lumpSum2AmountSc1').value+"&lumpSum2AmountSc2="+document.getElementById('lumpSum2AmountSc2').value;
+        } 
 
         customURLOutput.innerHTML = customURL;
-
-        // customURLOutput.select();
-        // document.execCommand("copy");
-
         copyToClipboard('customURLOutput');
 
     }, false);
 
 }
 
-function copyToClipboard(containerid) {
+function toggleAdvancedAssumptions() {
     
+    if(Number(advancedAssumptionsToggleMarker.value) === 0) {
+        advancedAssumptionTableContainer.style.display = "none"; 
+    } else {
+        advancedAssumptionsButton.innerHTML = "Remove advanced options";
+    }
+    
+    advancedAssumptionsButton.addEventListener('click', function() {
+
+        if(Number(advancedAssumptionsToggleMarker.value) === 0){
+            advancedAssumptionTableContainer.style.display = "block";
+            advancedAssumptionsToggleMarker.value = 1;
+            console.log(advancedAssumptionsToggleMarker.value);
+            advancedAssumptionsButton.innerHTML = "Remove advanced options";
+            refreshNetWorthCalcs();
+        } else {
+            advancedAssumptionTableContainer.style.display = "none";
+            advancedAssumptionsToggleMarker.value = 0;
+            console.log(advancedAssumptionsToggleMarker.value);
+            advancedAssumptionsButton.innerHTML = "+ Advanced options";
+            refreshNetWorthCalcs();
+        }
+    }, false);
+}
+
+function copyToClipboard(containerid) {
     if (screen.width >= 600) {
         if (document.selection) { 
             var range = document.body.createTextRange();
@@ -256,9 +322,9 @@ function copyToClipboard(containerid) {
         
         } else if (window.getSelection) {
             var range = document.createRange();
-             range.selectNode(document.getElementById(containerid));
-             window.getSelection().addRange(range);
-             document.execCommand("copy");
+            range.selectNode(document.getElementById(containerid));
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
         }
     }
     else {
@@ -268,7 +334,6 @@ function copyToClipboard(containerid) {
 
 function refreshNetWorthCalcs() {
     console.log("refresh net worth calcs");
-
     chart.destroy();
   
     let table = document.getElementById("netWorthTable");
@@ -381,28 +446,70 @@ function createNetWorthTable() {
     }
 }
 
-function generateNetWorthArrays () {
+function generateNetWorthArrays() {
 
     for(i=0;i<=numberYearsNetWorth;i++) {
 
         let currentAge = lowerStartAge + i;
-        
-        ageArray[i] = currentAge;
 
-        if(currentAge<startAgesc1) {
-            sc1Array[i] = null;
-        } else if(currentAge === startAgesc1) {
-            sc1Array[i] = startValuesc1;
+        let sc1LumpSum1 = 0;
+        let sc1LumpSum2 = 0;
+        let sc2LumpSum1 = 0;
+        let sc2LumpSum2 = 0;
+
+        let chooseAnnualSavingsSc1 = annualSavingsSc1;
+        let chooseAnnualSavingsSc2 = annualSavingsSc2;
+        let chooseAnnualReturnSc1 = annualReturnSc1;
+        let chooseAnnualReturnSc2 = annualReturnSc2;
+
+        //Grab lump sum values if it is the correct year
+        if(currentAge === lumpSum1AgeSc1 && Number(advancedAssumptionsToggleMarker.value) === 1) {
+            sc1LumpSum1 = lumpSum1AmountSc1;
         } else {
-            sc1Array[i] = sc1Array[i-1] + sc1Array[i-1] * annualReturnsc1 + annualSavingssc1;
+            sc1LumpSum1 = 0;
+        }
+        if(currentAge === lumpSum2AgeSc1 && Number(advancedAssumptionsToggleMarker.value) === 1) {
+            sc1LumpSum2 = lumpSum2AmountSc1;
+        } else {
+            sc1LumpSum2 = 0;
+        }
+        if(currentAge === lumpSum1AgeSc2 && Number(advancedAssumptionsToggleMarker.value) === 1) {
+            sc2LumpSum1 = lumpSum1AmountSc2;
+        } else {
+            sc2LumpSum1 = 0;
+        }
+        if(currentAge === lumpSum2AgeSc2 && Number(advancedAssumptionsToggleMarker.value) === 1) {
+            sc2LumpSum2 = lumpSum2AmountSc2;
+        } else {
+            sc2LumpSum2 = 0;
         }
 
-        if(currentAge<startAgesc2) {
-            sc2Array[i] = null;
-        } else if(currentAge === startAgesc2) {
-            sc2Array[i] = startValuesc2;
+        //Use phase 2 annual savings and return amount, if applicable
+        if(Number(advancedAssumptionsToggleMarker.value) === 1 && p2startAgeSc1 > startAgeSc1 && p2startAgeSc1 < currentAge) {
+            chooseAnnualSavingsSc1 = p2annualSavingsSc1;
+            chooseAnnualReturnSc1 = p2annualReturnSc1;
+        }
+        if(Number(advancedAssumptionsToggleMarker.value) === 1 && p2startAgeSc2 > startAgeSc2 && p2startAgeSc2 < currentAge) {
+            chooseAnnualSavingsSc2 = p2annualSavingsSc2;
+            chooseAnnualReturnSc2 = p2annualReturnSc2;
+        }
+
+        ageArray[i] = currentAge;
+
+        if(currentAge<startAgeSc1) {
+            sc1Array[i] = null;
+        } else if(currentAge === startAgeSc1) {
+            sc1Array[i] = startValueSc1;
         } else {
-            sc2Array[i] = sc2Array[i-1] + sc2Array[i-1] * annualReturnsc2 + annualSavingssc2;
+            sc1Array[i] = sc1Array[i-1] + sc1Array[i-1] * chooseAnnualReturnSc1 + chooseAnnualSavingsSc1 + sc1LumpSum1 + sc1LumpSum2;
+        }
+
+        if(currentAge<startAgeSc2) {
+            sc2Array[i] = null;
+        } else if(currentAge === startAgeSc2) {
+            sc2Array[i] = startValueSc2;
+        } else {
+            sc2Array[i] = sc2Array[i-1] + sc2Array[i-1] * chooseAnnualReturnSc2 + chooseAnnualSavingsSc2 + sc2LumpSum1 + sc2LumpSum2;
         }
 
         if(sc1Array[i] === null || sc2Array[i] === null) {

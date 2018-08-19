@@ -12,50 +12,114 @@
     <body>
         
         <div id="scenarioAssumptions">
+            <table class="scenarioAssumptionTable">
+
+                <tr class="scenarioAssumptionTable">
+                    <th class="assumptionTableLabel">Assumption</th>
+                    <th class="sc1Header">Scenario #1</th>
+                    <th class="sc2Header">Scenario #2</th>
+                </tr>
+
+                <tr class="scenarioAssumptionTable">
+                    <td class="assumptionTableLabel">Starting age</td>
+                    <td class="sc1Cell"><input type="number" class="sc1Input" id="ageSc1" value="25" min="0" max="100"></td>
+                    <td class="sc2Cell"><input type="number" class="sc2Input" id="ageSc2" value="35" min="0" max="100"></td>
+                </tr>
+
+                <tr class="scenarioAssumptionTable">
+                    <td class="assumptionTableLabel">Starting net worth ($)</td>
+                    <td class="sc1Cell"><input type="number" class="sc1Input" id="startSc1" value="10000" step="1000"></td>
+                    <td class="sc2Cell"><input type="number" class="sc2Input" id="startSc2" value="10000" step="1000"></td>
+                </tr>
+
+                <tr class="scenarioAssumptionTable">
+                    <td class="assumptionTableLabel">Annual savings (today's dollars)</td>
+                    <td class="sc1Cell"><input type="number" class="sc1Input" id="savingSc1" value="7000" step="1000"></td>
+                    <td class="sc2Cell"><input type="number" class="sc2Input" id="savingSc2" value="15000" step="1000"></td>                            
+                </tr>
+
+                <tr class="scenarioAssumptionTable">
+                    <td class="assumptionTableLabel">Investment return (% per year in today's dollars)</td>
+                    <td class="sc1Cell"><input type="number" class="sc1Input" id="returnSc1" value="5.0" step="0.1"></td>
+                    <td class="sc2Cell"><input type="number" class="sc2Input" id="returnSc2" value="5.0" step="0.1"></td>
+                </tr>
+
+            </table>
+
+            <div id="numYearsInputDiv">
+                <div id="numYearsTitle">
+                    <span>Number of years to look ahead</span>
+                </div>
+                <div id="numYearsInput">
+                        <input type="number" class="numYearsInput" id="numYears" value="40" min="0" max="100">
+                </div>
+            </div>
+
+            <div class="advancedAssumptionButtonContainer">
+                <button id="advancedAssumptionButton">+ Advanced options</button>
+            </div>
+
+            <div id="advancedAssumptionTableContainer">
+
+                <p class="advancedAssumptionPara">Use the inputs below to create a "phase 2" for each scenario. For example, instead of saving $7,000/yr in each year, you save $7,000/yr from ages 25 to 34, and then increase your savings to $10,000/yr when you are 35+.</p>
 
                 <table class="scenarioAssumptionTable">
-
                     <tr class="scenarioAssumptionTable">
-                        <th class="scenarioAssumptionTable">Assumption</th>
-                        <th class="sc1Header">Scenario #1</th>
-                        <th class="sc2Header">Scenario #2</th>
+                        <td class="assumptionTableLabel">Phase 2 - Starting age</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="phase2AgeSc1" value="35" min="0" max="100"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="phase2AgeSc2" value="45" min="0" max="100"></td>
                     </tr>
 
                     <tr class="scenarioAssumptionTable">
-                        <td class="scenarioAssumptionTable">Starting age</td>
-                        <td class="sc1Cell"><input type="number" class="sc1Input" id="ageSc1" value="25" min="0" max="100"></td>
-                        <td class="sc2Cell"><input type="number" class="sc2Input" id="ageSc2" value="35" min="0" max="100"></td>
+                        <td class="assumptionTableLabel">Phase 2 - Annual savings (today's dollars)</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="phase2SavingSc1" value="7000" step="1000"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="phase2SavingSc2" value="15000" step="1000"></td>                            
                     </tr>
 
                     <tr class="scenarioAssumptionTable">
-                        <td class="scenarioAssumptionTable">Starting net worth ($)</td>
-                        <td class="sc1Cell"><input type="number" class="sc1Input" id="startSc1" value="10000" step="1000"></td>
-                        <td class="sc2Cell"><input type="number" class="sc2Input" id="startSc2" value="10000" step="1000"></td>
+                        <td class="assumptionTableLabel">Phase 2 - Investment return (% per year in today's dollars)</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="phase2ReturnSc1" value="5.0" step="0.1"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="phase2ReturnSc2" value="5.0" step="0.1"></td>
                     </tr>
-
-                    <tr class="scenarioAssumptionTable">
-                        <td class="scenarioAssumptionTable">Annual savings (real dollars)</td>
-                        <td class="sc1Cell"><input type="number" class="sc1Input" id="savingSc1" value="7000" step="1000"></td>
-                        <td class="sc2Cell"><input type="number" class="sc2Input" id="savingSc2" value="15000" step="1000"></td>                            
-                    </tr>
-
-                    <tr class="scenarioAssumptionTable">
-                        <td class="scenarioAssumptionTable">Investment return (% per year in real dollars)</td>
-                        <td class="sc1Cell"><input type="number" class="sc1Input" id="returnSc1" value="5.0" step="0.1"></td>
-                        <td class="sc2Cell"><input type="number" class="sc2Input" id="returnSc2" value="5.0" step="0.1"></td>
-                    </tr>
-
                 </table>
+
+                <p class="advancedAssumptionPara">Use the inputs below to make lump sum changes to your net worth at a specific year. You can enter positive numbers (extra savings, inheritance) or negative numbers (taking time off work, medical emergency).</p>
+
+                <table class="scenarioAssumptionTable">
+                    <tr class="scenarioAssumptionTable">
+                        <td class="assumptionTableLabel">Lump sum #1 - Age</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="lumpSum1AgeSc1" value="0" min="0" max="100"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="lumpSum1AgeSc2" value="0" min="0" max="100"></td>
+                    </tr>
+
+                    <tr class="scenarioAssumptionTable">
+                        <td class="assumptionTableLabel">Lump sum #1 - $ Amount</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="lumpSum1AmountSc1" value="0" step="1000"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="lumpSum1AmountSc2" value="0" step="1000"></td>                            
+                    </tr>
+                </table>
+
+                <br>
+
+                <table class="scenarioAssumptionTable">
+                    <tr class="scenarioAssumptionTable">
+                        <td class="assumptionTableLabel">Lump sum #2 - Age</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="lumpSum2AgeSc1" value="0" min="0" max="100"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="lumpSum2AgeSc2" value="0" min="0" max="100"></td>
+                    </tr>
+    
+                    <tr class="scenarioAssumptionTable">
+                        <td class="assumptionTableLabel">Lump sum #2 - $ Amount</td>
+                        <td class="sc1Cell"><input type="number" class="sc1Input" id="lumpSum2AmountSc1" value="0" step="1000"></td>
+                        <td class="sc2Cell"><input type="number" class="sc2Input" id="lumpSum2AmountSc2" value="0" step="1000"></td>                            
+                    </tr>
+                </table>
+
+            </div>
+
         </div>
 
-        <div id="numYearsInputDiv">
-            <div id="numYearsTitle">
-                <span>Number of years to look ahead</span>
-            </div>
-            <div id="numYearsInput">
-                    <input type="number" class="numYearsInput" id="numYears" value="40" min="0" max="100">
-            </div>
-        </div>
+        
 
         <div id="netWorthChartDiv">
             <canvas id="netWorthChart"></canvas>
@@ -74,6 +138,10 @@
             
         <div id="netWorthTableDiv">
 
+        </div>
+
+        <div id="advancedAssumptionToggleMarkerContainer">
+            <input type="number" id="advancedAssumptionToggleMarker" value="0" min="0">
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
